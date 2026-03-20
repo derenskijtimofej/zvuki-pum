@@ -3,403 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Звуки Пум — музыкальная группа</title>
+  <title>Звуки Пум — Музыкальная группа</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .floating-lights {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .light {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(50px);
-      opacity: 0.22;
-      animation: floatLight 12s infinite ease-in-out;
-    }
-
-    .light.one {
-      width: 240px;
-      height: 240px;
-      background: #ff5bcf;
-      top: 8%;
-      left: 6%;
-    }
-
-    .light.two {
-      width: 280px;
-      height: 280px;
-      background: #63dfff;
-      top: 24%;
-      right: 8%;
-      animation-delay: 2s;
-    }
-
-    .light.three {
-      width: 220px;
-      height: 220px;
-      background: #ffd84d;
-      bottom: 10%;
-      left: 35%;
-      animation-delay: 4s;
-    }
-
-    @keyframes floatLight {
-      0% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(-30px) translateX(20px) scale(1.08); }
-      100% { transform: translateY(0) translateX(0) scale(1); }
-    }
-
-    .hero-banner {
-      animation: heroZoom 1.4s ease;
-    }
-
-    @keyframes heroZoom {
-      from {
-        opacity: 0;
-        transform: scale(1.04);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .hero-content > * {
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.8s ease forwards;
-    }
-
-    .hero-tag { animation-delay: 0.2s; }
-    .hero h1 { animation-delay: 0.35s; }
-    .hero p { animation-delay: 0.5s; }
-    .hero-actions { animation-delay: 0.65s; }
-    .stats { animation-delay: 0.8s; }
-
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .glass {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        120deg,
-        transparent 20%,
-        rgba(255,255,255,0.08) 50%,
-        transparent 80%
-      );
-      transform: translateX(-120%);
-      transition: 0.8s;
-    }
-
-    .glass:hover::before {
-      transform: translateX(120%);
-    }
-
-    .section-head h2,
-    .card,
-    .about-box,
-    .gallery-item,
-    .event,
-    .cta {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: 0.8s ease;
-    }
-
-    .show {
-      opacity: 1 !important;
-      transform: translateY(0) !important;
-    }
-
-    .duo-highlight {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      font-weight: 700;
-      backdrop-filter: blur(10px);
-    }
-
-    .pulse-dot {
-      width: 10px;
-      height: 10px;
-      background: #63dfff;
-      border-radius: 50%;
-      box-shadow: 0 0 0 rgba(99,223,255,0.6);
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(99,223,255,0.6); }
-      70% { box-shadow: 0 0 0 14px rgba(99,223,255,0); }
-      100% { box-shadow: 0 0 0 0 rgba(99,223,255,0); }
-    }
-
-    .members-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
-    }
-
-    .member-role {
-      margin-top: 12px;
-      color: #fff4b3;
-      font-weight: 800;
-      font-size: 0.95rem;
-    }
-
-    .member-role span {
-      display: inline-block;
-      margin: 4px 8px 0 0;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,216,77,0.10);
-      border: 1px solid rgba(255,216,77,0.16);
-    }
-
-    .big-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 720px) {
-      .members-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 <body>
-  <div class="floating-lights">
-    <div class="light one"></div>
-    <div class="light two"></div>
-    <div class="light three"></div>
-  </div>
-
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="logo">Звуки Пум</div>
       <nav class="nav">
         <a href="#about">О группе</a>
-        <a href="#members">Участники</a>
-        <a href="#songs">Песни</a>
-        <a href="#gallery">Галерея</a>
-        <a href="#shows">Афиша</a>
-        <a href="booking.html">Пригласить</a>
+        <a href="#schedule">Афиша</a>
+        <a href="#booking">Бронирование</a>
       </nav>
     </div>
   </header>
 
-  <main style="position:relative; z-index:1;">
+  <main>
+    <!-- HERO -->
     <section class="hero">
-      <div class="container">
-        <div class="hero-banner glass">
-          <div class="hero-content">
-            <div class="hero-tag">Музыкальная группа</div>
-            <h1>Живой звук. Яркая сцена. <span>Звуки Пум</span></h1>
-            <p>
-              «Звуки Пум» — это музыкальная группа из двух участников.
-              В программе сочетаются вокал, баян, пианино и гитара, создавая
-              тёплое, живое и запоминающееся выступление для праздников,
-              концертов и особенных событий.
-            </p>
-
-            <div class="duo-highlight">
-              <div class="pulse-dot"></div>
-              Дуэт из 2 участников
-            </div>
-
-            <div class="hero-actions" style="margin-top:20px;">
-              <a href="booking.html" class="btn btn-primary">Пригласить на выступление</a>
-              <a href="#shows" class="btn btn-secondary">Смотреть афишу</a>
-            </div>
-
-            <div class="stats">
-              <div class="stat glass">
-                <strong>2</strong>
-                участника в группе
-              </div>
-              <div class="stat glass">
-                <strong>4</strong>
-                музыкальных направления в одном выступлении
-              </div>
-              <div class="stat glass">
-                <strong>100%</strong>
-                живой атмосферы и эмоций
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="container hero-inner">
+        <h1>Звуки Пум</h1>
+        <p>Музыкальная группа из двух участников. В программе: вокал, баян, пианино и гитара.</p>
+        <a href="#booking" class="btn btn-primary">Забронировать выступление</a>
       </div>
     </section>
 
-    <section id="about">
+    <!-- ABOUT -->
+    <section id="about" class="section-about">
       <div class="container">
-        <div class="section-head">
-          <h2>О группе</h2>
-          <p>
-            «Звуки Пум» — это яркий музыкальный дуэт, в котором живое исполнение,
-            энергия сцены и разные инструменты соединяются в одно красивое выступление.
-          </p>
-        </div>
-
-        <div class="about-box glass">
-          <img src="band.png" alt="Группа Звуки Пум" />
-          <div class="about-text">
-            <h3>Музыка, которую чувствуют</h3>
-            <p>
-              В составе группы два участника, и каждый привносит в выступление
-              свой характер, стиль и особое звучание.
-            </p>
-            <p>
-              Это отличный формат для праздников, школьных концертов, фестивалей,
-              городских мероприятий и уютных семейных событий.
-            </p>
-            <p class="big-note">
-              На сцене звучат вокал, баян, пианино и гитара — поэтому выступление
-              получается одновременно душевным, праздничным и необычным.
-            </p>
-            <a href="booking.html" class="btn btn-primary">Оставить заявку</a>
-          </div>
-        </div>
+        <h2>О группе</h2>
+        <p>«Звуки Пум» — веселая и энергичная группа, которая дарит музыку и эмоции для детей и взрослых. В составе два человека: вокалист и баянист/пианист, гитарист.</p>
       </div>
     </section>
 
-    <section id="members">
+    <!-- SCHEDULE -->
+    <section id="schedule" class="section-schedule">
       <div class="container">
-        <div class="section-head">
-          <h2>Участники</h2>
-          <p>В группе два участника, и каждый сочетает сразу несколько музыкальных ролей.</p>
-        </div>
-
-        <div class="members-grid">
-          <div class="card glass">
-            <div class="label">Участник 1</div>
-            <h3>итарист</h3>
-            <p>
-              Отвечает за вокальную подачу, настроение на сцене и гитарное сопровождение.
-              Делает выступление живым, ярким и эмоциональным.
-            </p>
-            <div class="member-role">
-              <span>Гитара</span>
-            </div>
-          </div>
-
-          <div class="card glass">
-            <div class="label">Участник 2</div>
-            <h3>Баянист вокалист и пианист</h3>
-            <p>
-              Создаёт музыкальную глубину, мелодию и атмосферу.
-              Баян и пианино добавляют выступлению особое узнаваемое звучание.
-            </p>
-            <div class="member-role">
-              <span>Баян</span>
-              <span>Вокал</span>
-              <span>Пианино</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="songs">
-      <div class="container">
-        <div class="section-head">
-          <h2>Репертуар</h2>
-          <p>Музыка для праздника, сцены и хорошего настроения.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card glass">
-            <div class="label">Номер 1</div>
-            <h3>Праздничное открытие</h3>
-            <p>Энергичное начало программы с ярким вокалом и живым инструментальным сопровождением.</p>
-          </div>
-          <div class="card glass">
-            <div class="label">Номер 2</div>
-            <h3>Тёплая мелодия</h3>
-            <p>Лиричное и душевное исполнение с красивым звучанием баяна и пианино.</p>
-          </div>
-          <div class="card glass">
-            <div class="label">Номер 3</div>
-            <h3>Финал с драйвом</h3>
-            <p>Яркое завершение выступления, которое запоминается зрителям надолго.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="gallery">
-      <div class="container">
-        <div class="section-head">
-          <h2>Галерея</h2>
-          <p>Позже сюда можно добавить отдельные фотографии выступлений, сцены и репетиций.</p>
-        </div>
-
-        <div class="gallery">
-          <div class="gallery-item big"></div>
-          <div class="gallery-item"></div>
-          <div class="gallery-item"></div>
-          <div class="gallery-item"></div>
-          <div class="gallery-item"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="shows">
-      <div class="container">
-        <div class="section-head">
-          <h2>Афиша</h2>
-          <p>Пример ближайших выступлений. Можешь поменять на свои даты и площадки.</p>
-        </div>
-
-        <div class="schedule">
-          <div class="event glass">
+        <h2>Афиша</h2>
+        <div class="events">
+          <div class="event">
             <div class="event-date">12 апреля</div>
-            <div>
+            <div class="event-info">
               <strong>Весенний концерт</strong>
-              <div class="event-place">Школьная сцена · 17:00</div>
+              <p>Школьная сцена · 17:00</p>
             </div>
             <div class="event-badge">Скоро</div>
           </div>
 
-          <div class="event glass">
+          <div class="event">
             <div class="event-date">20 апреля</div>
-            <div>
+            <div class="event-info">
               <strong>Праздник музыки</strong>
-              <div class="event-place">Детский центр · 15:30</div>
+              <p>Детский центр · 15:30</p>
             </div>
             <div class="event-badge">Открыта запись</div>
           </div>
 
-          <div class="event glass">
+          <div class="event">
             <div class="event-date">4 мая</div>
-            <div>
+            <div class="event-info">
               <strong>Городской фестиваль</strong>
-              <div class="event-place">Центральная площадка · 13:00</div>
+              <p>Центральная площадка · 13:00</p>
             </div>
             <div class="event-badge">Live</div>
           </div>
@@ -407,41 +71,75 @@
       </div>
     </section>
 
-    <section id="contact">
+    <!-- BOOKING -->
+    <section id="booking" class="section-booking">
       <div class="container">
-        <div class="cta glass">
-          <h2>Пригласить группу на выступление</h2>
-          <p>Оставьте заявку на праздник, концерт, фестиваль или школьное мероприятие.</p>
-          <div class="main">zvukipum@example.com</div>
-          <div class="main">+7 (900) 123-45-67</div>
-          <div class="hero-actions center">
-            <a href="booking.html" class="btn btn-primary">Открыть форму заявки</a>
-            <a href="mailto:zvukipum@example.com" class="btn btn-secondary">Написать на почту</a>
-          </div>
-        </div>
+        <h2>Бронирование выступления</h2>
+        <form action="https://api.web3forms.com/submit" method="POST" class="booking-form">
+          <input type="hidden" name="access_key" value="d501d267-ddcc-46bd-bd12-726473c7370d">
+          <label>Имя</label>
+          <input type="text" name="name" required>
+          <label>Электронная почта</label>
+          <input type="email" name="email" required>
+          <label>Дата мероприятия</label>
+          <input type="date" name="date" required>
+          <label>Комментарий</label>
+          <textarea name="message"></textarea>
+          <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ADMIN BUTTON -->
+    <section class="section-admin">
+      <div class="container" style="text-align:center;">
+        <button class="btn btn-secondary" onclick="openAdminLogin()">Вход в админ панель</button>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="container">
-      © 2026 Звуки Пум — музыкальная группа
+      <p>© 2026 Звуки Пум. Все права защищены.</p>
     </div>
   </footer>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
-      });
-    }, {
-      threshold: 0.15
-    });
+  <!-- ADMIN MODAL -->
+  <div id="adminLoginModal" class="admin-login-modal">
+    <div class="admin-login-card">
+      <h3>Вход в админ-панель</h3>
+      <input id="adminLoginName" type="text" placeholder="Логин">
+      <input id="adminLoginPassword" type="password" placeholder="Пароль">
+      <div class="admin-login-actions">
+        <button class="btn btn-primary" onclick="checkAdminLogin()">Войти</button>
+        <button class="btn btn-secondary" onclick="closeAdminLogin()">Отмена</button>
+      </div>
+      <div id="adminLoginError" class="admin-login-error">Неверный логин или пароль.</div>
+    </div>
+  </div>
 
-    document.querySelectorAll('.section-head h2, .card, .about-box, .gallery-item, .event, .cta')
-      .forEach(el => observer.observe(el));
+  <script>
+    const SITE_ADMIN_LOGIN = "artem";
+    const SITE_ADMIN_PASSWORD = "3337333ARTEM";
+
+    function openAdminLogin() {
+      document.getElementById("adminLoginModal").classList.add("show");
+      document.getElementById("adminLoginError").style.display = "none";
+    }
+    function closeAdminLogin() {
+      document.getElementById("adminLoginModal").classList.remove("show");
+      document.getElementById("adminLoginName").value = "";
+      document.getElementById("adminLoginPassword").value = "";
+    }
+    function checkAdminLogin() {
+      const login = document.getElementById("adminLoginName").value.trim();
+      const password = document.getElementById("adminLoginPassword").value;
+      if(login === SITE_ADMIN_LOGIN && password === SITE_ADMIN_PASSWORD) {
+        window.location.href = "admin.html";
+      } else {
+        document.getElementById("adminLoginError").style.display = "block";
+      }
+    }
   </script>
 </body>
 </html>
