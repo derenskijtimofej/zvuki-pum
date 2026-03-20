@@ -1,55 +1,123 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Бронирование — Звуки Пум</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Звуки Пум — Музыкальная группа</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="logo">Звуки Пум</div>
-      <nav class="nav">
-        <a href="index.html">Главная</a>
-        <a href="booking.html">Форма</a>
-      </nav>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="logo">Звуки Пум</div>
+    <nav class="nav">
+      <a href="#about">О группе</a>
+      <a href="#schedule">Афиша</a>
+      <a href="booking.html">Бронирование</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>Звуки Пум</h1>
+      <p>Музыкальная группа из двух участников. В программе: вокал, баян, пианино и гитара.</p>
+      <a href="booking.html" class="btn btn-primary">Забронировать выступление</a>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="section-booking">
-      <div class="container">
-        <h2>Бронирование выступления</h2>
-
-        <div class="band-info">
-          <img src="band.png" alt="Группа Звуки Пум" class="band-photo">
-          <ul>
-            <li><strong>Участник 1:</strong> вокалист, баянист и пианист</li>
-            <li><strong>Участник 2:</strong> гитарист</li>
-          </ul>
-        </div>
-
-        <form action="https://api.web3forms.com/submit" method="POST" class="booking-form">
-          <input type="hidden" name="access_key" value="d501d267-ddcc-46bd-bd12-726473c7370d">
-          <label>Имя</label>
-          <input type="text" name="name" required>
-          <label>Электронная почта</label>
-          <input type="email" name="email" required>
-          <label>Дата мероприятия</label>
-          <input type="date" name="date" required>
-          <label>Комментарий</label>
-          <textarea name="message"></textarea>
-          <button type="submit" class="btn btn-primary">Отправить заявку</button>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer>
+  <section id="about" class="section-about">
     <div class="container">
-      <p>© 2026 Звуки Пум. Все права защищены.</p>
+      <h2>О группе</h2>
+      <p>«Звуки Пум» — веселая и энергичная группа, которая дарит музыку и эмоции для детей и взрослых. В составе два человека: вокалист и баянист/пианист, гитарист.</p>
     </div>
-  </footer>
+  </section>
+
+  <section id="schedule" class="section-schedule">
+    <div class="container">
+      <h2>Афиша</h2>
+      <div class="events">
+        <div class="event">
+          <div class="event-date">12 апреля</div>
+          <div class="event-info"><strong>Весенний концерт</strong><p>Школьная сцена · 17:00</p></div>
+          <div class="event-badge">Скоро</div>
+        </div>
+        <div class="event">
+          <div class="event-date">20 апреля</div>
+          <div class="event-info"><strong>Праздник музыки</strong><p>Детский центр · 15:30</p></div>
+          <div class="event-badge">Открыта запись</div>
+        </div>
+        <div class="event">
+          <div class="event-date">4 мая</div>
+          <div class="event-info"><strong>Городской фестиваль</strong><p>Центральная площадка · 13:00</p></div>
+          <div class="event-badge">Live</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КНОПКА ВХОДА В АДМИН ПАНЕЛЬ -->
+  <section class="admin-entry-section">
+    <div class="container admin-entry-wrap">
+      <button class="admin-entry-btn" type="button" onclick="openAdminLogin()">
+        Вход в админ панель
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Звуки Пум. Все права защищены.</p>
+  </div>
+</footer>
+
+<!-- МОДАЛЬНОЕ ОКНО ВХОДА -->
+<div id="adminLoginModal" class="admin-login-modal">
+  <div class="admin-login-card">
+    <h3>Вход в админ-панель</h3>
+    <p class="admin-login-text">Введите логин и пароль</p>
+    <input id="adminLoginName" type="text" placeholder="Логин">
+    <input id="adminLoginPassword" type="password" placeholder="Пароль">
+    <div class="admin-login-actions">
+      <button class="btn btn-primary" type="button" onclick="checkAdminLogin()">Войти</button>
+      <button class="btn btn-secondary" type="button" onclick="closeAdminLogin()">Отмена</button>
+    </div>
+    <div id="adminLoginError" class="admin-login-error">Неверный логин или пароль.</div>
+  </div>
+</div>
+
+<script>
+const SITE_ADMIN_LOGIN = "artem";
+const SITE_ADMIN_PASSWORD = "3337333";
+
+function openAdminLogin() {
+  document.getElementById("adminLoginModal").classList.add("show");
+  document.getElementById("adminLoginError").style.display = "none";
+}
+function closeAdminLogin() {
+  document.getElementById("adminLoginModal").classList.remove("show");
+  document.getElementById("adminLoginName").value = "";
+  document.getElementById("adminLoginPassword").value = "";
+  document.getElementById("adminLoginError").style.display = "none";
+}
+function checkAdminLogin() {
+  const login = document.getElementById("adminLoginName").value.trim();
+  const password = document.getElementById("adminLoginPassword").value;
+  if(login === SITE_ADMIN_LOGIN && password === SITE_ADMIN_PASSWORD) {
+    window.location.href = "admin.html";
+  } else {
+    document.getElementById("adminLoginError").style.display = "block";
+  }
+}
+document.addEventListener("keydown", function(e){
+  const modal = document.getElementById("adminLoginModal");
+  if(!modal.classList.contains("show")) return;
+  if(e.key === "Escape") closeAdminLogin();
+  if(e.key === "Enter") checkAdminLogin();
+});
+</script>
 </body>
 </html>
