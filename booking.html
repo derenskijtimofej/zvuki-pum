@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Пригласить группу — Звуки Пум</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бронирование — Звуки Пум</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
@@ -12,104 +12,43 @@
       <div class="logo">Звуки Пум</div>
       <nav class="nav">
         <a href="index.html">Главная</a>
-        <a href="index.html#about">О группе</a>
-        <a href="index.html#shows">Афиша</a>
-        <a href="booking.html">Пригласить</a>
+        <a href="booking.html">Форма</a>
       </nav>
     </div>
   </header>
 
-  <main class="booking-page">
-    <div class="container">
-      <div class="booking-wrap">
-        <div class="booking-box">
-          <div class="booking-top">
-            <div class="hero-tag">Форма приглашения</div>
-            <h1>Пригласить «Звуки Пум»</h1>
-            <p>
-              Заполните форму, чтобы отправить заявку на выступление
-              на праздник, концерт, фестиваль или школьное мероприятие.
-            </p>
-          </div>
+  <main>
+    <section class="section-booking">
+      <div class="container">
+        <h2>Бронирование выступления</h2>
 
-          <form class="booking-form" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="d501d267-ddcc-46bd-bd12-726473c7370d" />
-            <input type="hidden" name="subject" value="Новая заявка на выступление — Звуки Пум" />
-            <input type="hidden" name="from_name" value="Сайт Звуки Пум" />
-            <input type="hidden" name="redirect" value="https://derenskijtimofej.github.io/zvuki-pum/thanks.html" />
-            <input type="checkbox" name="botcheck" style="display:none;" />
-
-            <div class="form-row">
-              <div class="field">
-                <label for="name">Ваше имя</label>
-                <input type="text" id="name" name="name" placeholder="Например: Анна" required />
-              </div>
-              <div class="field">
-                <label for="phone">Телефон</label>
-                <input type="tel" id="phone" name="phone" placeholder="+7 (900) 123-45-67" required />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="example@mail.ru" required />
-              </div>
-              <div class="field">
-                <label for="event-type">Тип мероприятия</label>
-                <select id="event-type" name="event_type" required>
-                  <option value="">Выберите вариант</option>
-                  <option>День рождения</option>
-                  <option>Школьный концерт</option>
-                  <option>Фестиваль</option>
-                  <option>Праздник в детском центре</option>
-                  <option>Другое мероприятие</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="field">
-                <label for="date">Дата выступления</label>
-                <input type="date" id="date" name="date" required />
-              </div>
-              <div class="field">
-                <label for="place">Место проведения</label>
-                <input type="text" id="place" name="place" placeholder="Город, площадка" required />
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="message">Комментарий</label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Напишите подробности: сколько гостей, формат праздника, время выступления и другие пожелания"
-                required
-              ></textarea>
-            </div>
-
-            <div class="booking-actions">
-              <button type="submit" class="btn btn-primary">Отправить заявку</button>
-              <a href="index.html" class="btn btn-secondary">Вернуться на главную</a>
-            </div>
-
-            <div class="booking-note">
-              После отправки вы автоматически перейдёте на страницу благодарности.
-            </div>
-          </form>
+        <div class="band-info">
+          <img src="band.png" alt="Группа Звуки Пум" class="band-photo">
+          <ul>
+            <li><strong>Участник 1:</strong> вокалист, баянист и пианист</li>
+            <li><strong>Участник 2:</strong> гитарист</li>
+          </ul>
         </div>
 
-        <div class="back-link">
-          <a href="index.html">← Назад на главную страницу</a>
-        </div>
+        <form action="https://api.web3forms.com/submit" method="POST" class="booking-form">
+          <input type="hidden" name="access_key" value="d501d267-ddcc-46bd-bd12-726473c7370d">
+          <label>Имя</label>
+          <input type="text" name="name" required>
+          <label>Электронная почта</label>
+          <input type="email" name="email" required>
+          <label>Дата мероприятия</label>
+          <input type="date" name="date" required>
+          <label>Комментарий</label>
+          <textarea name="message"></textarea>
+          <button type="submit" class="btn btn-primary">Отправить заявку</button>
+        </form>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer>
     <div class="container">
-      © 2026 Звуки Пум — форма приглашения
+      <p>© 2026 Звуки Пум. Все права защищены.</p>
     </div>
   </footer>
 </body>
