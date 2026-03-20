@@ -1,56 +1,36 @@
-<form class="booking-form" action="https://api.web3forms.com/submit" method="POST">
-  <input type="hidden" name="access_key" value="d501d267-ddcc-46bd-bd12-726473c7370d" />
-  <input type="hidden" name="subject" value="Новая заявка на выступление — Звуки Пум" />
-  <input type="hidden" name="from_name" value="Сайт Звуки Пум" />
-  <input type="checkbox" name="botcheck" style="display:none;" />
+const form = document.getElementById('form');
+const submitBtn = form.querySelector('button[type="submit"]');
 
-  <div class="form-row">
-    <div class="field">
-      <label for="name">Ваше имя</label>
-      <input type="text" id="name" name="name" placeholder="Например: Анна" required />
-    </div>
-    <div class="field">
-      <label for="phone">Телефон</label>
-      <input type="tel" id="phone" name="phone" placeholder="+7 (900) 123-45-67" required />
-    </div>
-  </div>
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  <div class="form-row">
-    <div class="field">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="example@mail.ru" required />
-    </div>
-    <div class="field">
-      <label for="event-type">Тип мероприятия</label>
-      <select id="event-type" name="event_type" required>
-        <option value="">Выберите вариант</option>
-        <option>День рождения</option>
-        <option>Школьный концерт</option>
-        <option>Фестиваль</option>
-        <option>Праздник в детском центре</option>
-        <option>Другое мероприятие</option>
-      </select>
-    </div>
-  </div>
+    const formData = new FormData(form);
+    formData.append("access_key", "d501d267-ddcc-46bd-bd12-726473c7370d");
 
-  <div class="form-row">
-    <div class="field">
-      <label for="date">Дата выступления</label>
-      <input type="date" id="date" name="date" required />
-    </div>
-    <div class="field">
-      <label for="place">Место проведения</label>
-      <input type="text" id="place" name="place" placeholder="Город, площадка" required />
-    </div>
-  </div>
+    const originalText = submitBtn.textContent;
 
-  <div class="field">
-    <label for="message">Комментарий</label>
-    <textarea id="message" name="message" placeholder="Подробности мероприятия" required></textarea>
-  </div>
+    submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
 
-  <div class="booking-actions">
-    <button type="submit" class="btn btn-primary">Отправить заявку</button>
-    <a href="index.html" class="btn btn-secondary">Вернуться на главную</a>
-  </div>
-</form>
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Success! Your message has been sent.");
+            form.reset();
+        } else {
+            alert("Error: " + data.message);
+        }
+
+    } catch (error) {
+        alert("Something went wrong. Please try again.");
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
