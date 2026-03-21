@@ -1,641 +1,75 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Админ-панель — Звуки Пум</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .admin-shell {
-      min-height: calc(100vh - 72px);
-      padding: 42px 0 80px;
-    }
-
-    .login-wrap {
-      min-height: calc(100vh - 140px);
-      display: grid;
-      place-items: center;
-    }
-
-    .login-card,
-    .admin-card {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(12px);
-    }
-
-    .login-card {
-      width: min(520px, 100%);
-      padding: 28px;
-    }
-
-    .login-card h1 {
-      margin: 0 0 10px;
-      font-size: 2rem;
-    }
-
-    .login-card p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .admin-stack {
-      display: grid;
-      gap: 22px;
-    }
-
-    .admin-card {
-      padding: 24px;
-    }
-
-    .admin-top {
-      margin-bottom: 26px;
-    }
-
-    .admin-top h1 {
-      margin: 0 0 10px;
-      font-size: 2.6rem;
-    }
-
-    .admin-top p {
-      margin: 0;
-      color: var(--muted);
-      max-width: 860px;
-      line-height: 1.7;
-    }
-
-    .admin-form {
-      display: grid;
-      gap: 14px;
-    }
-
-    .admin-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .admin-field label {
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .admin-field input,
-    .admin-field textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      outline: none;
-      transition: 0.2s ease;
-    }
-
-    .admin-field textarea {
-      min-height: 115px;
-      resize: vertical;
-    }
-
-    .admin-field input:focus,
-    .admin-field textarea:focus {
-      border-color: rgba(99,223,255,0.5);
-      box-shadow: 0 0 0 4px rgba(99,223,255,0.12);
-    }
-
-    .mini-badge {
-      display: inline-block;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(99,223,255,0.1);
-      border: 1px solid rgba(99,223,255,0.18);
-      color: #dff9ff;
-      font-weight: 800;
-      font-size: 0.85rem;
-      margin-bottom: 10px;
-    }
-
-    .admin-actions,
-    .login-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .save-status,
-    .admin-note,
-    .error-box,
-    .success-box {
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      line-height: 1.6;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .save-status,
-    .success-box {
-      background: rgba(99,223,255,0.08);
-      color: #dff9ff;
-      display: none;
-    }
-
-    .admin-note {
-      background: rgba(255,216,77,0.08);
-      border-color: rgba(255,216,77,0.16);
-      color: #fff2b1;
-    }
-
-    .error-box {
-      background: rgba(255,88,118,0.08);
-      border-color: rgba(255,88,118,0.18);
-      color: #ffd6de;
-      display: none;
-    }
-
-    .preview-box,
-    .code-box {
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .preview-events {
-      display: grid;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .preview-event {
-      display: grid;
-      grid-template-columns: 120px 1fr auto;
-      gap: 16px;
-      align-items: center;
-      padding: 16px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-
-    .preview-date {
-      font-weight: 900;
-      color: var(--yellow);
-    }
-
-    .preview-place {
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .preview-badge {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(99,223,255,0.10);
-      border: 1px solid rgba(99,223,255,0.18);
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .code-box textarea {
-      width: 100%;
-      min-height: 260px;
-      padding: 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: #0c1020;
-      color: #eaf0ff;
-      font-family: Consolas, monospace;
-      font-size: 0.95rem;
-      resize: vertical;
-    }
-
-    .quick-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .quick-item {
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .quick-item strong {
-      display: block;
-      color: var(--yellow);
-      margin-bottom: 4px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 980px) {
-      .admin-grid,
-      .preview-event {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="logo">Звуки Пум — Admin</div>
-      <nav class="nav">
-        <a href="index.html">Главная</a>
-        <a href="booking.html">Форма</a>
-        <a href="thanks.html">Спасибо</a>
-      </nav>
-    </div>
-  </header>
 
-  <main class="admin-shell">
-    <div class="container">
-      <section id="loginScreen" class="login-wrap">
-        <div class="login-card">
-          <div class="mini-badge">Вход в панель</div>
-          <h1>Админ-вход</h1>
-          <p>Введи логин и пароль, чтобы открыть редактор афиши и быстрый доступ к сайту.</p>
+<h1>Админ панель</h1>
 
-          <div class="admin-form">
-            <div class="admin-field">
-              <label for="loginInput">Логин</label>
-              <input id="loginInput" type="text" placeholder="Введите логин" />
-            </div>
+<h2>Афиша</h2>
+<textarea id="p1"></textarea>
+<textarea id="p2"></textarea>
+<textarea id="p3"></textarea>
+<button onclick="saveAfisha()">Сохранить</button>
 
-            <div class="admin-field">
-              <label for="passwordInput">Пароль</label>
-              <input id="passwordInput" type="password" placeholder="Введите пароль" />
-            </div>
-          </div>
+<h2>Заявки</h2>
+<div id="apps"></div>
+<button onclick="exportCSV()">Скачать CSV</button>
 
-          <div class="login-actions" style="margin-top:16px;">
-            <button class="btn btn-primary" type="button" onclick="loginToAdmin()">Войти</button>
-          </div>
+<script>
+const firebaseConfig = {
+  apiKey: "ТВОЙ_FIREBASE_API_KEY",
+  authDomain: "ТВОЙ_FIREBASE_PROJECT.firebaseapp.com",
+  databaseURL: "https://ТВОЙ_FIREBASE_PROJECT.firebaseio.com",
+  projectId: "ТВОЙ_FIREBASE_PROJECT",
+  storageBucket: "ТВОЙ_FIREBASE_PROJECT.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
+};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.database();
 
-          <div id="loginError" class="error-box">Неверный логин или пароль.</div>
-          <div class="admin-note">
-            Это только локальная защита для GitHub Pages. Без сервера она не считается настоящей безопасностью.
-          </div>
-        </div>
-      </section>
+/* Афиша */
+function saveAfisha(){
+ db.ref("afisha").set({
+  poster1:p1.value,
+  poster2:p2.value,
+  poster3:p3.value
+ });
+ alert("Сохранено");
+}
 
-      <section id="adminPanel" class="hidden">
-        <div class="admin-top">
-          <h1>Админ-панель</h1>
-          <p>Мощная мини-панель для управления афишей, текстами и быстрыми ссылками. Здесь можно собрать HTML афиши и сразу вставить его в главную страницу сайта.</p>
-        </div>
+/* Заявки */
+db.ref("applications").on("value",snap=>{
+ const data = snap.val()||{};
+ let html="";
+ Object.keys(data).forEach(k=>{
+  const a = data[k];
+  html+=`<div class="card"><b>${a.name}</b><br>${a.email}<br>${a.date}<br>${a.message}<br><button onclick="star('${k}')">⭐</button><button onclick="del('${k}')">❌</button></div>`;
+ });
+ apps.innerHTML=html;
+});
 
-        <div class="admin-grid">
-          <div class="admin-stack">
-            <section class="admin-card">
-              <div class="mini-badge">Редактор афиши</div>
-              <h2>Афиша выступлений</h2>
-              <p>Формат строки такой: <b>дата — название — место и время — статус</b></p>
+function star(k){ db.ref("applications/"+k+"/star").set(true); }
+function del(k){ db.ref("applications/"+k).remove(); }
 
-              <div class="admin-form">
-                <div class="admin-field">
-                  <label for="poster1">Выступление 1</label>
-                  <textarea id="poster1">12 апреля — Весенний концерт — Школьная сцена · 17:00 — Скоро</textarea>
-                </div>
-                <div class="admin-field">
-                  <label for="poster2">Выступление 2</label>
-                  <textarea id="poster2">20 апреля — Праздник музыки — Детский центр · 15:30 — Открыта запись</textarea>
-                </div>
-                <div class="admin-field">
-                  <label for="poster3">Выступление 3</label>
-                  <textarea id="poster3">4 мая — Городской фестиваль — Центральная площадка · 13:00 — Live</textarea>
-                </div>
-                <div class="admin-field">
-                  <label for="poster4">Выступление 4</label>
-                  <textarea id="poster4"></textarea>
-                </div>
-                <div class="admin-field">
-                  <label for="poster5">Выступление 5</label>
-                  <textarea id="poster5"></textarea>
-                </div>
-              </div>
-
-              <div class="admin-actions" style="margin-top:16px;">
-                <button class="btn btn-primary" type="button" onclick="saveAdminData()">Сохранить</button>
-                <button class="btn btn-secondary" type="button" onclick="buildScheduleHtml()">Собрать HTML афиши</button>
-                <button class="btn btn-secondary" type="button" onclick="copyHtml()">Скопировать HTML</button>
-                <button class="btn btn-secondary" type="button" onclick="copyPosterText()">Скопировать текст афиши</button>
-                <button class="btn btn-secondary" type="button" onclick="resetAdminData()">Сбросить</button>
-              </div>
-
-              <div id="saveStatus" class="success-box">Сохранено.</div>
-
-              <div class="preview-box">
-                <h3>Предпросмотр</h3>
-                <div id="previewEvents" class="preview-events"></div>
-              </div>
-
-              <div class="code-box">
-                <h3>Готовый HTML</h3>
-                <textarea id="htmlOutput" readonly></textarea>
-              </div>
-            </section>
-
-            <section class="admin-card">
-              <div class="mini-badge">Тексты и контакты</div>
-              <h3>Данные для сайта</h3>
-              <div class="admin-form">
-                <div class="admin-field">
-                  <label for="phone">Телефон</label>
-                  <input id="phone" type="text" value="+7 (900) 123-45-67" />
-                </div>
-                <div class="admin-field">
-                  <label for="email">Email</label>
-                  <input id="email" type="text" value="zvukipum@example.com" />
-                </div>
-                <div class="admin-field">
-                  <label for="about">Короткое описание</label>
-                  <textarea id="about">«Звуки Пум» — музыкальная группа из двух участников. В программе звучат вокал, баян, пианино и гитара.</textarea>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <div class="admin-stack">
-            <section class="admin-card">
-              <div class="mini-badge">Быстрые ссылки</div>
-              <h3>Навигация</h3>
-              <p>Открывай нужные страницы в один клик.</p>
-              <div class="admin-actions">
-                <a class="btn btn-primary" href="https://derenskijtimofej.github.io/zvuki-pum/index.html" target="_blank">Открыть сайт</a>
-                <a class="btn btn-secondary" href="booking.html" target="_blank">Форма</a>
-                <a class="btn btn-secondary" href="thanks.html" target="_blank">Спасибо</a>
-                <a class="btn btn-secondary" href="https://github.com/derenskijtimofej/zvuki-pum" target="_blank">GitHub</a>
-              </div>
-            </section>
-
-            <section class="admin-card">
-              <div class="mini-badge">Заявки</div>
-              <h3>Просмотр заявок</h3>
-              <p>GitHub Pages не хранит заявки внутри сайта, поэтому открываем сервисы, где они реально лежат.</p>
-
-              <div class="quick-list">
-                <div class="quick-item">
-                  <strong>Почта</strong>
-                  Обычно именно туда приходят новые заявки с формы.
-                </div>
-                <div class="quick-item">
-                  <strong>Web3Forms</strong>
-                  Там можно проверить отправки формы и её настройки.
-                </div>
-              </div>
-
-              <div class="admin-actions" style="margin-top:16px;">
-                <a class="btn btn-primary" href="https://mail.google.com/" target="_blank">Открыть почту</a>
-                <a class="btn btn-secondary" href="https://web3forms.com/" target="_blank">Открыть Web3Forms</a>
-              </div>
-
-              <div class="admin-note">
-                Эта панель хранит данные в браузере на этом устройстве. Чтобы обновить сам сайт для всех, вставь сгенерированный HTML в `index.html` и загрузи изменения на GitHub.
-              </div>
-            </section>
-
-            <section class="admin-card">
-              <div class="mini-badge">Сессия</div>
-              <h3>Управление входом</h3>
-              <p>Можно выйти из панели и снова зайти по логину и паролю.</p>
-              <div class="admin-actions">
-                <button class="btn btn-secondary" type="button" onclick="logoutAdmin()">Выйти</button>
-              </div>
-            </section>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    const ADMIN_LOGIN = "admin";
-    const ADMIN_PASSWORD = "3337333ADMIN";
-
-    const defaultAdminData = {
-      poster1: "12 апреля — Весенний концерт — Школьная сцена · 17:00 — Скоро",
-      poster2: "20 апреля — Праздник музыки — Детский центр · 15:30 — Открыта запись",
-      poster3: "4 мая — Городской фестиваль — Центральная площадка · 13:00 — Live",
-      poster4: "",
-      poster5: "",
-      phone: "+7 (900) 123-45-67",
-      email: "zvukipum@example.com",
-      about: "«Звуки Пум» — музыкальная группа из двух участников. В программе звучат вокал, баян, пианино и гитара."
-    };
-
-    function getFields() {
-      return {
-        poster1: document.getElementById("poster1"),
-        poster2: document.getElementById("poster2"),
-        poster3: document.getElementById("poster3"),
-        poster4: document.getElementById("poster4"),
-        poster5: document.getElementById("poster5"),
-        phone: document.getElementById("phone"),
-        email: document.getElementById("email"),
-        about: document.getElementById("about")
-      };
-    }
-
-    function showStatus(text) {
-      const box = document.getElementById("saveStatus");
-      box.textContent = text;
-      box.style.display = "block";
-      setTimeout(() => {
-        box.style.display = "none";
-      }, 1800);
-    }
-
-    function showLoginError(show) {
-      document.getElementById("loginError").style.display = show ? "block" : "none";
-    }
-
-    function openAdminPanel() {
-      document.getElementById("loginScreen").classList.add("hidden");
-      document.getElementById("adminPanel").classList.remove("hidden");
-      loadAdminData();
-      buildScheduleHtml();
-    }
-
-    function loginToAdmin() {
-      const login = document.getElementById("loginInput").value.trim();
-      const password = document.getElementById("passwordInput").value;
-
-      if (login === ADMIN_LOGIN && password === ADMIN_PASSWORD) {
-        localStorage.setItem("zvukiPumAdminLogged", "yes");
-        showLoginError(false);
-        openAdminPanel();
-      } else {
-        showLoginError(true);
-      }
-    }
-
-    function logoutAdmin() {
-      localStorage.removeItem("zvukiPumAdminLogged");
-      document.getElementById("adminPanel").classList.add("hidden");
-      document.getElementById("loginScreen").classList.remove("hidden");
-      document.getElementById("passwordInput").value = "";
-    }
-
-    function saveAdminData() {
-      const f = getFields();
-      const data = {
-        poster1: f.poster1.value,
-        poster2: f.poster2.value,
-        poster3: f.poster3.value,
-        poster4: f.poster4.value,
-        poster5: f.poster5.value,
-        phone: f.phone.value,
-        email: f.email.value,
-        about: f.about.value
-      };
-      localStorage.setItem("zvukiPumAdminData", JSON.stringify(data));
-      buildScheduleHtml();
-      showStatus("Сохранено.");
-    }
-
-    function loadAdminData() {
-      const saved = localStorage.getItem("zvukiPumAdminData");
-      const data = saved ? JSON.parse(saved) : defaultAdminData;
-      const f = getFields();
-
-      Object.keys(defaultAdminData).forEach(key => {
-        f[key].value = data[key] ?? defaultAdminData[key];
-      });
-    }
-
-    function resetAdminData() {
-      localStorage.removeItem("zvukiPumAdminData");
-      loadAdminData();
-      buildScheduleHtml();
-      showStatus("Сброшено.");
-    }
-
-    function escapeHtml(text) {
-      return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;");
-    }
-
-    function parsePosterLine(line) {
-      const parts = line.split("—").map(x => x.trim());
-      return {
-        date: parts[0] || "",
-        title: parts[1] || "",
-        place: parts[2] || "",
-        badge: parts[3] || "Скоро"
-      };
-    }
-
-    function buildScheduleHtml() {
-      const f = getFields();
-      const lines = [
-        f.poster1.value,
-        f.poster2.value,
-        f.poster3.value,
-        f.poster4.value,
-        f.poster5.value
-      ].filter(line => line && line.trim() !== "");
-
-      const preview = document.getElementById("previewEvents");
-      const output = document.getElementById("htmlOutput");
-
-      preview.innerHTML = "";
-      let html = "";
-
-      lines.forEach(line => {
-        const item = parsePosterLine(line);
-        const date = escapeHtml(item.date);
-        const title = escapeHtml(item.title);
-        const place = escapeHtml(item.place);
-        const badge = escapeHtml(item.badge);
-
-        const card = document.createElement("div");
-        card.className = "preview-event";
-        card.innerHTML = `
-          <div class="preview-date">${date || "Дата"}</div>
-          <div>
-            <strong>${title || "Название"}</strong>
-            <div class="preview-place">${place || "Место и время"}</div>
-          </div>
-          <div class="preview-badge">${badge}</div>
-        `;
-        preview.appendChild(card);
-
-        html += `
-<div class="event glass">
-  <div class="event-date">${date}</div>
-  <div>
-    <strong>${title}</strong>
-    <div class="event-place">${place}</div>
-  </div>
-  <div class="event-badge">${badge}</div>
-</div>
-`.trim() + "\n\n";
-      });
-
-      output.value = html.trim();
-    }
-
-    async function copyHtml() {
-      const html = document.getElementById("htmlOutput").value;
-      try {
-        await navigator.clipboard.writeText(html);
-        showStatus("HTML скопирован.");
-      } catch (e) {
-        showStatus("Не удалось скопировать HTML.");
-      }
-    }
-
-    async function copyPosterText() {
-      const f = getFields();
-      const text = [
-        f.poster1.value,
-        f.poster2.value,
-        f.poster3.value,
-        f.poster4.value,
-        f.poster5.value
-      ].filter(Boolean).join("\n");
-
-      try {
-        await navigator.clipboard.writeText(text);
-        showStatus("Текст афиши скопирован.");
-      } catch (e) {
-        showStatus("Не удалось скопировать текст.");
-      }
-    }
-
-    document.getElementById("passwordInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") loginToAdmin();
-    });
-
-    document.getElementById("loginInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") loginToAdmin();
-    });
-
-    if (localStorage.getItem("zvukiPumAdminLogged") === "yes") {
-      openAdminPanel();
-    }
-  </script>
+/* CSV */
+function exportCSV(){
+ db.ref("applications").once("value").then(snap=>{
+   const data = snap.val()||{};
+   let csv="name,email,date,message\n";
+   Object.values(data).forEach(a=>{csv+=`${a.name},${a.email},${a.date},${a.message}\n`;});
+   const blob=new Blob([csv]);
+   const a=document.createElement("a");
+   a.href=URL.createObjectURL(blob);
+   a.download="apps.csv";
+   a.click();
+ });
+}
+</script>
 </body>
 </html>
