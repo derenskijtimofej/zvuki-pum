@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Звуки Пум — Музыкальная группа</title>
+<title>Звуки Пум — Главная</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
+
 <header class="topbar">
-  <div class="container topbar-inner">
+  <div class="container">
     <div class="logo">Звуки Пум</div>
-    <nav class="nav">
+    <nav>
       <a href="#about">О группе</a>
+      <a href="#members">Участники</a>
       <a href="#schedule">Афиша</a>
       <a href="booking.html">Бронирование</a>
     </nav>
@@ -19,110 +23,124 @@
 </header>
 
 <main>
-  <section class="hero">
-    <div class="container hero-inner">
-      <h1>Звуки Пум</h1>
-      <p>Музыкальная группа из двух участников. В программе: вокал, баян, пианино и гитара.</p>
-      <a href="booking.html" class="btn btn-primary">Забронировать выступление</a>
-    </div>
-  </section>
+<section id="hero">
+  <h1>Звуки Пум</h1>
+  <p>Живая музыка: вокал, баян, пианино и гитара</p>
+  <a href="booking.html" class="btn">Заказать</a>
+</section>
 
-  <section id="about" class="section-about">
-    <div class="container">
-      <h2>О группе</h2>
-      <p>«Звуки Пум» — веселая и энергичная группа, которая дарит музыку и эмоции для детей и взрослых. В составе два человека: вокалист и баянист/пианист, гитарист.</p>
-    </div>
-  </section>
+<section id="about">
+  <h2>О группе</h2>
+  <p>«Звуки Пум» — музыкальная группа из двух участников, создающая яркую атмосферу на праздниках и концертах.</p>
+</section>
 
-  <section id="schedule" class="section-schedule">
- <div class="event glass">
-  <div class="event-date">пока нет</div>
-  <div>
-    <strong></strong>
-    <div class="event-place"></div>
-  </div>
-  <div class="event-badge">Скоро</div>
-</div>
+<section id="members">
+  <h2>Участники</h2>
+  <img src="band.png" class="band-photo">
+  <ul>
+    <li>Участник 1: вокал, баян, пианино</li>
+    <li>Участник 2: гитарист</li>
+  </ul>
+</section>
 
-<div class="event glass">
-  <div class="event-date">пока нет</div>
-  <div>
-    <strong></strong>
-    <div class="event-place"></div>
-  </div>
-  <div class="event-badge">Скоро</div>
-</div>
+<section id="schedule">
+  <h2>Афиша</h2>
+  <div id="events"></div>
+</section>
 
-<div class="event glass">
-  <div class="event-date">пока нет</div>
-  <div>
-    <strong></strong>
-    <div class="event-place"></div>
-  </div>
-  <div class="event-badge">Скоро</div>
-</div>
+<section id="player">
+  <h2>🎵 Плейлист</h2>
+  <audio controls id="audioPlayer"></audio>
+  <select id="playlistSelect"></select>
+</section>
 
-  <!-- КНОПКА ВХОДА В АДМИН ПАНЕЛЬ -->
-  <section class="admin-entry-section">
-    <div class="container admin-entry-wrap">
-      <button class="admin-entry-btn" type="button" onclick="openAdminLogin()">
-        Вход в админ панель
-      </button>
-    </div>
-  </section>
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+<button onclick="openLogin()">Вход в админ</button>
 
-</main>
-
-<footer>
-  <div class="container">
-    <p>© 2026 Звуки Пум. Все права защищены.</p>
-  </div>
-</footer>
-
-<!-- МОДАЛЬНОЕ ОКНО ВХОДА -->
-<div id="adminLoginModal" class="admin-login-modal">
-  <div class="admin-login-card">
-    <h3>Вход в админ-панель</h3>
-    <p class="admin-login-text">Введите логин и пароль</p>
-    <input id="adminLoginName" type="text" placeholder="Логин">
-    <input id="adminLoginPassword" type="password" placeholder="Пароль">
-    <div class="admin-login-actions">
-      <button class="btn btn-primary" type="button" onclick="checkAdminLogin()">Войти</button>
-      <button class="btn btn-secondary" type="button" onclick="closeAdminLogin()">Отмена</button>
-    </div>
-    <div id="adminLoginError" class="admin-login-error">Неверный логин или пароль.</div>
+<div id="login" class="modal">
+  <div class="card">
+    <input id="loginInput" placeholder="логин">
+    <input id="passInput" type="password" placeholder="пароль">
+    <button onclick="checkLogin()">Войти</button>
   </div>
 </div>
+
+<div id="toast"></div>
 
 <script>
-const SITE_ADMIN_LOGIN = "artem";
-const SITE_ADMIN_PASSWORD = "3337333";
+/* Firebase config */
+const firebaseConfig = {
+  apiKey: "ТВОЙ_FIREBASE_API_KEY",
+  authDomain: "ТВОЙ_FIREBASE_PROJECT.firebaseapp.com",
+  databaseURL: "https://ТВОЙ_FIREBASE_PROJECT.firebaseio.com",
+  projectId: "ТВОЙ_FIREBASE_PROJECT",
+  storageBucket: "ТВОЙ_FIREBASE_PROJECT.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef123456"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-function openAdminLogin() {
-  document.getElementById("adminLoginModal").classList.add("show");
-  document.getElementById("adminLoginError").style.display = "none";
+/* Админ */
+const login="artem";
+const pass="3337333";
+
+function openLogin(){document.getElementById("login").style.display="flex";}
+function checkLogin(){
+ if(loginInput.value===login && passInput.value===pass) location.href="admin.html";
+ else showToast("Ошибка: неверный логин или пароль");
 }
-function closeAdminLogin() {
-  document.getElementById("adminLoginModal").classList.remove("show");
-  document.getElementById("adminLoginName").value = "";
-  document.getElementById("adminLoginPassword").value = "";
-  document.getElementById("adminLoginError").style.display = "none";
+
+/* Загрузка афиши */
+function loadEvents(){
+ db.ref("afisha").once("value").then(snap=>{
+   const data = snap.val() || {};
+   const container = document.getElementById("events");
+   container.innerHTML="";
+   ["poster1","poster2","poster3"].forEach(k=>{
+     if(data[k]) container.innerHTML+=`<div class="event">${data[k]}</div>`;
+   });
+ });
 }
-function checkAdminLogin() {
-  const login = document.getElementById("adminLoginName").value.trim();
-  const password = document.getElementById("adminLoginPassword").value;
-  if(login === SITE_ADMIN_LOGIN && password === SITE_ADMIN_PASSWORD) {
-    window.location.href = "admin.html";
-  } else {
-    document.getElementById("adminLoginError").style.display = "block";
-  }
+loadEvents();
+
+/* Плейлист */
+const tracks = [
+ {name:"Трек 1", src:"music1.mp3"},
+ {name:"Трек 2", src:"music2.mp3"}
+];
+const player = document.getElementById("audioPlayer");
+const sel = document.getElementById("playlistSelect");
+tracks.forEach((t,i)=>{
+ let opt = document.createElement("option");
+ opt.value=i; opt.text=t.name;
+ sel.appendChild(opt);
+});
+sel.onchange=function(){player.src=tracks[this.value]; player.play();}
+player.src=tracks[0].src;
+
+/* Тема */
+function toggleTheme(){
+ document.body.classList.toggle("light");
+ localStorage.setItem("theme",document.body.classList.contains("light"));
 }
-document.addEventListener("keydown", function(e){
-  const modal = document.getElementById("adminLoginModal");
-  if(!modal.classList.contains("show")) return;
-  if(e.key === "Escape") closeAdminLogin();
-  if(e.key === "Enter") checkAdminLogin();
+if(localStorage.getItem("theme")==="true") document.body.classList.add("light");
+
+/* Toast */
+function showToast(msg){
+ const t=document.getElementById("toast");
+ t.innerText=msg; t.style.display="block";
+ setTimeout(()=>t.style.display="none",2000);
+}
+
+/* Анимации при скролле */
+window.addEventListener("scroll",()=>{
+ document.querySelectorAll("section").forEach(sec=>{
+   const rect = sec.getBoundingClientRect();
+   if(rect.top < window.innerHeight) sec.classList.add("fade-in");
+ });
 });
 </script>
+
 </body>
 </html>
